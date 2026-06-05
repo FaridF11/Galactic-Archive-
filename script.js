@@ -861,6 +861,7 @@ const gearTypeFilter = document.querySelector("#gear-type-filter");
 const gearSearchInput = document.querySelector("#gear-search");
 const gearGrid = document.querySelector("#gear-grid");
 const gearCount = document.querySelector("#gear-count");
+let characterProfile = null;
 
 function uniqueFactions() {
   return [...new Set(characters.map((character) => character.faction))].sort();
@@ -877,6 +878,17 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function characterInitials(name) {
+  return name
+    .replaceAll("/", " ")
+    .split(" ")
+    .filter((part) => part.length > 2)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
 }
 
 function characterMatches(character, query, faction, scope) {
@@ -897,37 +909,130 @@ function renderCharacters() {
   const filtered = characters.filter((character) => characterMatches(character, query, faction, scope));
 
   count.textContent = `${filtered.length} of ${characters.length} dossier${filtered.length === 1 ? "" : "s"} shown. ${featuredCharacters.length} are detailed main profiles; ${archiveCharacters.length} are quick archive profiles.`;
-  grid.innerHTML = filtered.map((character) => `
-    <article class="character-card" data-faction="${escapeHtml(character.faction)}" data-tier="${escapeHtml(character.tier)}">
+  grid.innerHTML = filtered.map((character) => {
+    const characterIndex = characters.indexOf(character);
+    return `
+    <article class="character-card" data-character-index="${characterIndex}" data-faction="${escapeHtml(character.faction)}" data-tier="${escapeHtml(character.tier)}">
       <div>
         <h3>${escapeHtml(character.name)}</h3>
+      </div>
+      <p><strong>${escapeHtml(character.role)}</strong></p>
+      <details class="character-card-details">
+        <summary>Metadata</summary>
         <div class="character-meta">
           <span class="pill">${escapeHtml(character.faction)}</span>
           <span class="pill">${escapeHtml(character.era)}</span>
           <span class="pill">${character.tier === "featured" ? "Main dossier" : "Archive dossier"}</span>
+          <span class="pill">${escapeHtml(character.first)}</span>
+        </div>
+      </details>
+      <button class="character-profile-button" type="button" data-character-index="${characterIndex}" aria-label="Open ${escapeHtml(character.name)} profile">View profile</button>
+    </article>
+  `;
+  }).join("");
+}
+
+function buildCharacterProfile() {
+  if (!grid || characterProfile) {
+    return;
+  }
+
+  characterProfile = document.createElement("div");
+  characterProfile.className = "profile-overlay";
+  characterProfile.setAttribute("role", "dialog");
+  characterProfile.setAttribute("aria-modal", "true");
+  characterProfile.setAttribute("aria-hidden", "true");
+  characterProfile.innerHTML = `
+    <div class="profile-panel" role="document">
+      <button class="profile-close" type="button" aria-label="Close character profile">Close</button>
+      <div class="profile-layout">
+        <div class="hologram-stage" aria-hidden="true">
+          <div class="hologram-ring"></div>
+          <div class="hologram-avatar">
+            <span id="profile-initials"></span>
+          </div>
+          <div class="hologram-scan"></div>
+          <div class="hologram-base"></div>
+        </div>
+        <div class="profile-copy">
+          <p class="eyebrow" id="profile-type"></p>
+          <h2 id="profile-name"></h2>
+          <p id="profile-role"></p>
+          <div class="character-meta" id="profile-tags"></div>
         </div>
       </div>
-      <p><strong>${escapeHtml(character.role)}</strong></p>
-      <dl>
+      <dl class="profile-details">
         <div>
           <dt>First major appearance</dt>
-          <dd>${escapeHtml(character.first)}</dd>
+          <dd id="profile-first"></dd>
         </div>
         <div>
           <dt>Arc</dt>
-          <dd>${escapeHtml(character.arc)}</dd>
+          <dd id="profile-arc"></dd>
         </div>
         <div>
           <dt>Relationships</dt>
-          <dd>${escapeHtml(character.relationships)}</dd>
+          <dd id="profile-relationships"></dd>
         </div>
         <div>
           <dt>Why they matter</dt>
-          <dd>${escapeHtml(character.significance)}</dd>
+          <dd id="profile-significance"></dd>
         </div>
       </dl>
-    </article>
-  `).join("");
+    </div>
+  `;
+
+  document.body.append(characterProfile);
+  characterProfile.querySelector(".profile-close").addEventListener("click", closeCharacterProfile);
+  characterProfile.addEventListener("click", (event) => {
+    if (event.target === characterProfile) {
+      closeCharacterProfile();
+    }
+  });
+}
+
+function setText(selector, value) {
+  const element = characterProfile.querySelector(selector);
+  element.textContent = value;
+}
+
+function openCharacterProfile(characterIndex) {
+  buildCharacterProfile();
+  const character = characters[characterIndex];
+
+  if (!character || !characterProfile) {
+    return;
+  }
+
+  setText("#profile-initials", characterInitials(character.name));
+  setText("#profile-type", character.tier === "featured" ? "Main character dossier" : "Archive character dossier");
+  setText("#profile-name", character.name);
+  setText("#profile-role", character.role);
+  setText("#profile-first", character.first);
+  setText("#profile-arc", character.arc);
+  setText("#profile-relationships", character.relationships);
+  setText("#profile-significance", character.significance);
+
+  characterProfile.querySelector("#profile-tags").innerHTML = `
+    <span class="pill">${escapeHtml(character.faction)}</span>
+    <span class="pill">${escapeHtml(character.era)}</span>
+    <span class="pill">${character.tier === "featured" ? "Main dossier" : "Archive dossier"}</span>
+  `;
+
+  characterProfile.classList.add("is-open");
+  characterProfile.setAttribute("aria-hidden", "false");
+  document.body.classList.add("profile-open");
+  characterProfile.querySelector(".profile-close").focus();
+}
+
+function closeCharacterProfile() {
+  if (!characterProfile) {
+    return;
+  }
+
+  characterProfile.classList.remove("is-open");
+  characterProfile.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("profile-open");
 }
 
 function gearMatches(item, query, type) {
@@ -993,6 +1098,25 @@ function populateFilters() {
 populateFilters();
 renderGear();
 renderCharacters();
+buildCharacterProfile();
+
+if (grid) {
+  grid.addEventListener("click", (event) => {
+    const button = event.target.closest(".character-profile-button");
+
+    if (!button) {
+      return;
+    }
+
+    openCharacterProfile(Number(button.dataset.characterIndex));
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeCharacterProfile();
+  }
+});
 
 if (searchInput) {
   searchInput.addEventListener("input", renderCharacters);
