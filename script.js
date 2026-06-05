@@ -1170,53 +1170,107 @@ function buildCharacterProfile() {
   characterProfile.innerHTML = `
     <div class="profile-panel" role="document">
       <button class="profile-close" type="button" aria-label="Close character profile">Close</button>
-      <div class="profile-layout">
-        <div class="hologram-stage" aria-hidden="true">
-          <div class="hologram-ring"></div>
-          <div class="hologram-avatar" id="profile-hologram">
-            <div class="holo-character">
-              <span class="holo-cape"></span>
-              <span class="holo-head"></span>
-              <span class="holo-helmet"></span>
-              <span class="holo-ear left"></span>
-              <span class="holo-ear right"></span>
-              <span class="holo-body"></span>
-              <span class="holo-chest"></span>
-              <span class="holo-arm left"></span>
-              <span class="holo-arm right"></span>
-              <span class="holo-weapon"></span>
-              <span class="holo-initials" id="profile-initials"></span>
+      <div class="profile-dossier">
+        <aside class="profile-infobox" aria-label="Character quick facts">
+          <div class="profile-portrait-card">
+            <p class="eyebrow">Hologram portrait</p>
+            <div class="hologram-stage" aria-hidden="true">
+              <div class="hologram-ring"></div>
+              <div class="hologram-avatar" id="profile-hologram">
+                <div class="holo-character">
+                  <span class="holo-cape"></span>
+                  <span class="holo-head"></span>
+                  <span class="holo-helmet"></span>
+                  <span class="holo-ear left"></span>
+                  <span class="holo-ear right"></span>
+                  <span class="holo-body"></span>
+                  <span class="holo-chest"></span>
+                  <span class="holo-arm left"></span>
+                  <span class="holo-arm right"></span>
+                  <span class="holo-weapon"></span>
+                  <span class="holo-initials" id="profile-initials"></span>
+                </div>
+              </div>
+              <div class="hologram-projector"></div>
+              <div class="hologram-scan"></div>
+              <div class="hologram-base"></div>
             </div>
           </div>
-          <div class="hologram-projector"></div>
-          <div class="hologram-scan"></div>
-          <div class="hologram-base"></div>
-        </div>
-        <div class="profile-copy">
-          <p class="eyebrow" id="profile-type"></p>
-          <h2 id="profile-name"></h2>
-          <p id="profile-role"></p>
-          <div class="character-meta" id="profile-tags"></div>
-        </div>
+          <dl class="profile-facts">
+            <div>
+              <dt>Affiliation</dt>
+              <dd id="profile-faction"></dd>
+            </div>
+            <div>
+              <dt>Era</dt>
+              <dd id="profile-era"></dd>
+            </div>
+            <div>
+              <dt>First appearance</dt>
+              <dd id="profile-first"></dd>
+            </div>
+            <div>
+              <dt>Profile depth</dt>
+              <dd id="profile-depth"></dd>
+            </div>
+          </dl>
+          <div class="profile-source-links" id="profile-source-links"></div>
+        </aside>
+
+        <article class="profile-article">
+          <header class="profile-copy">
+            <p class="eyebrow" id="profile-type"></p>
+            <h2 id="profile-name"></h2>
+            <p id="profile-role"></p>
+            <div class="character-meta" id="profile-tags"></div>
+          </header>
+
+          <nav class="profile-jump-list" aria-label="Profile sections">
+            <a href="#profile-overview-section">Overview</a>
+            <a href="#profile-biography-section">Biography</a>
+            <a href="#profile-connections-section">Connections</a>
+            <a href="#profile-reference-section">Reference</a>
+          </nav>
+
+          <section class="profile-section" id="profile-overview-section">
+            <p class="eyebrow">Overview</p>
+            <h3>Why This Character Matters</h3>
+            <p id="profile-significance"></p>
+          </section>
+
+          <section class="profile-section" id="profile-biography-section">
+            <p class="eyebrow">Biography</p>
+            <h3>Story Arc</h3>
+            <p id="profile-arc"></p>
+          </section>
+
+          <section class="profile-section profile-two-column" id="profile-connections-section">
+            <div>
+              <p class="eyebrow">Connections</p>
+              <h3>Relationships</h3>
+              <p id="profile-relationships"></p>
+            </div>
+            <div>
+              <p class="eyebrow">Skills and Role</p>
+              <h3>What They Do</h3>
+              <p id="profile-skills"></p>
+            </div>
+          </section>
+
+          <section class="profile-section profile-two-column" id="profile-reference-section">
+            <div>
+              <p class="eyebrow">Appearances</p>
+              <h3>Where to Start</h3>
+              <p id="profile-appearances"></p>
+            </div>
+            <div>
+              <p class="eyebrow">Archive Note</p>
+              <h3>How This Entry Works</h3>
+              <p>This site gives an original, readable summary first. The source buttons open outside references when you want the official Databank style or the much deeper Wookieepedia-style encyclopedia trail.</p>
+            </div>
+          </section>
+        </article>
       </div>
-      <dl class="profile-details">
-        <div>
-          <dt>First major appearance</dt>
-          <dd id="profile-first"></dd>
-        </div>
-        <div>
-          <dt>Arc</dt>
-          <dd id="profile-arc"></dd>
-        </div>
-        <div>
-          <dt>Relationships</dt>
-          <dd id="profile-relationships"></dd>
-        </div>
-        <div>
-          <dt>Why they matter</dt>
-          <dd id="profile-significance"></dd>
-        </div>
-      </dl>
     </div>
   `;
 
@@ -1234,6 +1288,44 @@ function setText(selector, value) {
   element.textContent = value;
 }
 
+function characterSourceLinks(character) {
+  const query = encodeURIComponent(character.name);
+  return `
+    <a href="https://www.starwars.com/databank" target="_blank" rel="noreferrer">Official Databank</a>
+    <a href="https://starwars.fandom.com/wiki/Special:Search?query=${query}" target="_blank" rel="noreferrer">Wookieepedia search</a>
+  `;
+}
+
+function characterSkillsSummary(character) {
+  const text = `${character.name} ${character.faction} ${character.role} ${character.significance}`.toLowerCase();
+
+  if (text.includes("droid")) {
+    return "Droid characters usually matter through technical knowledge, translation, navigation, repair work, loyalty, and the way they carry memory across eras.";
+  }
+
+  if (text.includes("jedi") || text.includes("force") || text.includes("padawan")) {
+    return "Their role centers on Force sensitivity, discipline, mentorship, moral choice, and the tension between personal attachment and service.";
+  }
+
+  if (text.includes("sith") || text.includes("dark side") || text.includes("inquisitor")) {
+    return "Their power is tied to fear, secrecy, control, dueling skill, and the way the dark side turns pain into domination.";
+  }
+
+  if (text.includes("pilot") || text.includes("rebel") || text.includes("resistance")) {
+    return "Their importance comes through courage under pressure, tactical risk, starfighter or command work, and the ability to turn small victories into larger hope.";
+  }
+
+  if (text.includes("mandalorian") || text.includes("bounty")) {
+    return "Their role is built around combat skill, armor culture, contracts, clan loyalty, survival, and the line between professional code and personal conscience.";
+  }
+
+  if (text.includes("senator") || text.includes("queen") || text.includes("leader") || text.includes("general")) {
+    return "Their influence comes from leadership, diplomacy, strategy, public courage, and the burden of making political choices during war.";
+  }
+
+  return "Their role is defined by their relationships, choices, loyalties, and the way their actions push the larger galactic conflict forward.";
+}
+
 function openCharacterProfile(characterIndex) {
   buildCharacterProfile();
   const character = characters[characterIndex];
@@ -1246,16 +1338,22 @@ function openCharacterProfile(characterIndex) {
   setText("#profile-type", character.tier === "featured" ? "Main character dossier" : "Archive character dossier");
   setText("#profile-name", character.name);
   setText("#profile-role", character.role);
+  setText("#profile-faction", character.faction);
+  setText("#profile-era", character.era);
   setText("#profile-first", character.first);
+  setText("#profile-depth", character.tier === "featured" ? "Detailed profile" : "Quick archive profile");
   setText("#profile-arc", character.arc);
   setText("#profile-relationships", character.relationships);
   setText("#profile-significance", character.significance);
+  setText("#profile-skills", characterSkillsSummary(character));
+  setText("#profile-appearances", `${character.first} is the best starting point for this profile. Their main era is ${character.era}, and related viewing can be explored on the Media page.`);
 
   characterProfile.querySelector("#profile-tags").innerHTML = `
     <span class="pill">${escapeHtml(character.faction)}</span>
     <span class="pill">${escapeHtml(character.era)}</span>
     <span class="pill">${character.tier === "featured" ? "Main dossier" : "Archive dossier"}</span>
   `;
+  characterProfile.querySelector("#profile-source-links").innerHTML = characterSourceLinks(character);
 
   const hologram = characterProfile.querySelector("#profile-hologram");
   hologram.className = `hologram-avatar ${characterVisualClass(character)}`;
