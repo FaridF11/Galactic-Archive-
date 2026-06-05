@@ -2,6 +2,10 @@
 
 A fan-made Star Wars encyclopedia website built to help users explore characters, planets, factions, ships, weapons, and key lore from across the galaxy.
 
+## Live Website
+
+View the website here: https://faridf11.github.io/Galactic-Archive-/
+
 ## About the Project
 
 This website was created as an interactive encyclopedia for Star Wars fans. It organizes important information in one place and makes it easy to learn about different parts of the Star Wars universe.
