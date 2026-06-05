@@ -887,6 +887,10 @@ function characterMatches(character, query, faction, scope) {
 }
 
 function renderCharacters() {
+  if (!grid || !count || !searchInput || !factionFilter || !scopeFilter) {
+    return;
+  }
+
   const query = searchInput.value.trim().toLowerCase();
   const faction = factionFilter.value;
   const scope = scopeFilter.value;
@@ -933,6 +937,10 @@ function gearMatches(item, query, type) {
 }
 
 function renderGear() {
+  if (!gearGrid || !gearCount || !gearSearchInput || !gearTypeFilter) {
+    return;
+  }
+
   const query = gearSearchInput.value.trim().toLowerCase();
   const type = gearTypeFilter.value;
   const filtered = gearItems.filter((item) => gearMatches(item, query, type));
@@ -963,27 +971,45 @@ function renderGear() {
 }
 
 function populateFilters() {
-  uniqueFactions().forEach((faction) => {
-    const option = document.createElement("option");
-    option.value = faction;
-    option.textContent = faction;
-    factionFilter.append(option);
-  });
+  if (factionFilter) {
+    uniqueFactions().forEach((faction) => {
+      const option = document.createElement("option");
+      option.value = faction;
+      option.textContent = faction;
+      factionFilter.append(option);
+    });
+  }
 
-  uniqueGearTypes().forEach((type) => {
-    const option = document.createElement("option");
-    option.value = type;
-    option.textContent = type;
-    gearTypeFilter.append(option);
-  });
+  if (gearTypeFilter) {
+    uniqueGearTypes().forEach((type) => {
+      const option = document.createElement("option");
+      option.value = type;
+      option.textContent = type;
+      gearTypeFilter.append(option);
+    });
+  }
 }
 
 populateFilters();
 renderGear();
 renderCharacters();
 
-searchInput.addEventListener("input", renderCharacters);
-factionFilter.addEventListener("change", renderCharacters);
-scopeFilter.addEventListener("change", renderCharacters);
-gearSearchInput.addEventListener("input", renderGear);
-gearTypeFilter.addEventListener("change", renderGear);
+if (searchInput) {
+  searchInput.addEventListener("input", renderCharacters);
+}
+
+if (factionFilter) {
+  factionFilter.addEventListener("change", renderCharacters);
+}
+
+if (scopeFilter) {
+  scopeFilter.addEventListener("change", renderCharacters);
+}
+
+if (gearSearchInput) {
+  gearSearchInput.addEventListener("input", renderGear);
+}
+
+if (gearTypeFilter) {
+  gearTypeFilter.addEventListener("change", renderGear);
+}
