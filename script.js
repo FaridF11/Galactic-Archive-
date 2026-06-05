@@ -891,11 +891,82 @@ function characterInitials(name) {
     .toUpperCase();
 }
 
+function characterVisualClass(character) {
+  const text = `${character.name} ${character.faction} ${character.role}`.toLowerCase();
+
+  if (text.includes("droid") || text.includes("r2-") || text.includes("bb-") || text.includes("c-3po") || text.includes("k-2so")) {
+    return "visual-droid";
+  }
+
+  if (text.includes("wookiee") || text.includes("chewbacca") || text.includes("krrsantan")) {
+    return "visual-wookiee";
+  }
+
+  if (text.includes("mandalorian") || text.includes("boba") || text.includes("jango") || text.includes("din djarin") || text.includes("bo-katan")) {
+    return "visual-mandalorian";
+  }
+
+  if (text.includes("sith") || text.includes("dark side") || text.includes("vader") || text.includes("palpatine") || text.includes("maul") || text.includes("dooku") || text.includes("kylo") || text.includes("snoke")) {
+    return "visual-sith";
+  }
+
+  if (text.includes("jedi") || text.includes("ahsoka") || text.includes("rey") || text.includes("yoda")) {
+    return "visual-jedi";
+  }
+
+  if (text.includes("clone") || text.includes("trooper")) {
+    return "visual-trooper";
+  }
+
+  if (text.includes("rebel") || text.includes("resistance") || text.includes("pilot") || text.includes("general") || text.includes("spy")) {
+    return "visual-rebel";
+  }
+
+  if (text.includes("bounty") || text.includes("smuggler") || text.includes("pirate") || text.includes("underworld")) {
+    return "visual-scoundrel";
+  }
+
+  return "visual-civilian";
+}
+
 function characterMatches(character, query, faction, scope) {
   const text = Object.values(character).join(" ").toLowerCase();
   const factionMatch = faction === "all" || character.faction === faction;
   const scopeMatch = scope === "all" || character.tier === scope;
   return factionMatch && scopeMatch && text.includes(query);
+}
+
+function characterSearchRank(character, query) {
+  if (!query) {
+    return 0;
+  }
+
+  const name = character.name.toLowerCase();
+  const role = character.role.toLowerCase();
+  const faction = character.faction.toLowerCase();
+  const era = character.era.toLowerCase();
+
+  if (name === query) {
+    return 100;
+  }
+
+  if (name.startsWith(query)) {
+    return 90;
+  }
+
+  if (name.includes(query)) {
+    return 80;
+  }
+
+  if (role.includes(query)) {
+    return 50;
+  }
+
+  if (faction.includes(query) || era.includes(query)) {
+    return 35;
+  }
+
+  return 10;
 }
 
 function renderCharacters() {
@@ -906,7 +977,9 @@ function renderCharacters() {
   const query = searchInput.value.trim().toLowerCase();
   const faction = factionFilter.value;
   const scope = scopeFilter.value;
-  const filtered = characters.filter((character) => characterMatches(character, query, faction, scope));
+  const filtered = characters
+    .filter((character) => characterMatches(character, query, faction, scope))
+    .sort((a, b) => characterSearchRank(b, query) - characterSearchRank(a, query));
 
   count.textContent = `${filtered.length} of ${characters.length} dossier${filtered.length === 1 ? "" : "s"} shown. ${featuredCharacters.length} are detailed main profiles; ${archiveCharacters.length} are quick archive profiles.`;
   grid.innerHTML = filtered.map((character) => {
@@ -948,9 +1021,22 @@ function buildCharacterProfile() {
       <div class="profile-layout">
         <div class="hologram-stage" aria-hidden="true">
           <div class="hologram-ring"></div>
-          <div class="hologram-avatar">
-            <span id="profile-initials"></span>
+          <div class="hologram-avatar" id="profile-hologram">
+            <div class="holo-character">
+              <span class="holo-cape"></span>
+              <span class="holo-head"></span>
+              <span class="holo-helmet"></span>
+              <span class="holo-ear left"></span>
+              <span class="holo-ear right"></span>
+              <span class="holo-body"></span>
+              <span class="holo-chest"></span>
+              <span class="holo-arm left"></span>
+              <span class="holo-arm right"></span>
+              <span class="holo-weapon"></span>
+              <span class="holo-initials" id="profile-initials"></span>
+            </div>
           </div>
+          <div class="hologram-projector"></div>
           <div class="hologram-scan"></div>
           <div class="hologram-base"></div>
         </div>
@@ -1018,6 +1104,9 @@ function openCharacterProfile(characterIndex) {
     <span class="pill">${escapeHtml(character.era)}</span>
     <span class="pill">${character.tier === "featured" ? "Main dossier" : "Archive dossier"}</span>
   `;
+
+  const hologram = characterProfile.querySelector("#profile-hologram");
+  hologram.className = `hologram-avatar ${characterVisualClass(character)}`;
 
   characterProfile.classList.add("is-open");
   characterProfile.setAttribute("aria-hidden", "false");

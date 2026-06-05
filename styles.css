@@ -1026,27 +1026,264 @@ body.profile-open {
   position: relative;
   display: grid;
   place-items: center;
-  width: 170px;
-  height: 230px;
+  width: 190px;
+  height: 250px;
   transform-style: preserve-3d;
-  border: 1px solid rgba(77, 182, 172, 0.58);
-  border-radius: 48% 48% 42% 42%;
+  border: 0;
+  border-radius: 0;
   background:
-    radial-gradient(circle at 50% 26%, rgba(245, 240, 232, 0.42), transparent 14%),
-    linear-gradient(180deg, rgba(77, 182, 172, 0.32), rgba(95, 143, 214, 0.12) 54%, transparent);
-  box-shadow:
-    0 0 46px rgba(77, 182, 172, 0.42),
-    inset 0 0 36px rgba(245, 240, 232, 0.14);
-  animation: hologram-turn 5.4s ease-in-out infinite;
+    repeating-linear-gradient(180deg, rgba(245, 240, 232, 0.1) 0 2px, transparent 2px 7px),
+    linear-gradient(180deg, rgba(77, 182, 172, 0.12), transparent 72%);
+  filter:
+    drop-shadow(0 0 18px rgba(77, 182, 172, 0.72))
+    drop-shadow(0 0 38px rgba(95, 143, 214, 0.32));
+  animation: hologram-materialize 760ms ease-out both, hologram-turn 5.4s ease-in-out 760ms infinite;
 }
 
-.hologram-avatar span {
-  color: rgba(245, 240, 232, 0.92);
-  font-size: 3.5rem;
+.holo-character {
+  position: relative;
+  width: 150px;
+  height: 230px;
+  transform-style: preserve-3d;
+}
+
+.holo-character span {
+  position: absolute;
+  display: block;
+}
+
+.holo-head {
+  top: 16px;
+  left: 50%;
+  width: 58px;
+  height: 62px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(245, 240, 232, 0.58);
+  border-radius: 48% 48% 44% 44%;
+  background:
+    radial-gradient(circle at 38% 35%, rgba(245, 240, 232, 0.7) 0 4px, transparent 5px),
+    radial-gradient(circle at 62% 35%, rgba(245, 240, 232, 0.7) 0 4px, transparent 5px),
+    linear-gradient(180deg, rgba(77, 182, 172, 0.64), rgba(95, 143, 214, 0.22));
+  box-shadow: inset 0 0 26px rgba(245, 240, 232, 0.12);
+}
+
+.holo-body {
+  top: 80px;
+  left: 50%;
+  width: 90px;
+  height: 112px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(245, 240, 232, 0.42);
+  border-radius: 28px 28px 18px 18px;
+  background:
+    linear-gradient(90deg, transparent 0 20%, rgba(245, 240, 232, 0.22) 20% 22%, transparent 23% 100%),
+    linear-gradient(180deg, rgba(77, 182, 172, 0.5), rgba(95, 143, 214, 0.16));
+}
+
+.holo-chest {
+  top: 110px;
+  left: 50%;
+  width: 48px;
+  height: 24px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(245, 240, 232, 0.3);
+  border-radius: 6px;
+  background: rgba(7, 8, 11, 0.18);
+}
+
+.holo-arm {
+  top: 92px;
+  width: 26px;
+  height: 98px;
+  border: 1px solid rgba(245, 240, 232, 0.34);
+  border-radius: 999px;
+  background: rgba(77, 182, 172, 0.28);
+}
+
+.holo-arm.left {
+  left: 12px;
+  transform: rotate(12deg);
+}
+
+.holo-arm.right {
+  right: 12px;
+  transform: rotate(-18deg);
+}
+
+.holo-cape {
+  top: 70px;
+  left: 50%;
+  width: 130px;
+  height: 140px;
+  transform: translateX(-50%);
+  clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(95, 143, 214, 0.14), transparent);
+  opacity: 0;
+}
+
+.holo-helmet,
+.holo-ear,
+.holo-weapon {
+  opacity: 0;
+}
+
+.holo-initials {
+  top: 122px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(245, 240, 232, 0.82);
+  font-size: 1rem;
   font-weight: 900;
-  text-shadow:
-    0 0 16px rgba(77, 182, 172, 0.88),
-    0 0 28px rgba(95, 143, 214, 0.72);
+  text-shadow: 0 0 14px rgba(77, 182, 172, 0.9);
+}
+
+.visual-jedi .holo-cape,
+.visual-sith .holo-cape,
+.visual-mandalorian .holo-cape {
+  opacity: 1;
+}
+
+.visual-jedi .holo-weapon,
+.visual-sith .holo-weapon {
+  right: 15px;
+  bottom: 30px;
+  width: 9px;
+  height: 154px;
+  transform: rotate(-24deg);
+  border-radius: 999px;
+  opacity: 1;
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.96), rgba(95, 143, 214, 0.78) 18%, rgba(95, 143, 214, 0.16) 72%, transparent),
+    rgba(95, 143, 214, 0.38);
+  box-shadow: 0 0 22px rgba(95, 143, 214, 0.9);
+}
+
+.visual-sith .holo-cape {
+  background: linear-gradient(180deg, rgba(216, 66, 66, 0.34), transparent);
+}
+
+.visual-sith .holo-weapon {
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.9), rgba(216, 66, 66, 0.86) 18%, rgba(216, 66, 66, 0.18) 72%, transparent),
+    rgba(216, 66, 66, 0.44);
+  box-shadow: 0 0 24px rgba(216, 66, 66, 0.92);
+}
+
+.visual-mandalorian .holo-helmet,
+.visual-trooper .holo-helmet {
+  top: 14px;
+  left: 50%;
+  width: 72px;
+  height: 66px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(245, 240, 232, 0.52);
+  border-radius: 18px 18px 28px 28px;
+  opacity: 1;
+  background:
+    linear-gradient(90deg, transparent 45%, rgba(7, 8, 11, 0.65) 46% 54%, transparent 55%),
+    linear-gradient(180deg, rgba(245, 240, 232, 0.24), rgba(77, 182, 172, 0.34));
+}
+
+.visual-mandalorian .holo-head,
+.visual-trooper .holo-head {
+  opacity: 0;
+}
+
+.visual-mandalorian .holo-weapon,
+.visual-scoundrel .holo-weapon,
+.visual-rebel .holo-weapon {
+  right: 2px;
+  top: 126px;
+  width: 60px;
+  height: 18px;
+  border-radius: 4px;
+  opacity: 1;
+  background:
+    linear-gradient(90deg, rgba(245, 240, 232, 0.5), rgba(77, 182, 172, 0.26)),
+    rgba(7, 8, 11, 0.3);
+}
+
+.visual-droid .holo-character {
+  width: 140px;
+}
+
+.visual-droid .holo-head {
+  top: 22px;
+  width: 82px;
+  height: 56px;
+  border-radius: 18px 18px 10px 10px;
+}
+
+.visual-droid .holo-body {
+  top: 90px;
+  width: 76px;
+  height: 102px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 36% 28%, rgba(245, 182, 66, 0.72) 0 5px, transparent 6px),
+    radial-gradient(circle at 64% 28%, rgba(95, 143, 214, 0.72) 0 5px, transparent 6px),
+    linear-gradient(180deg, rgba(77, 182, 172, 0.46), rgba(95, 143, 214, 0.14));
+}
+
+.visual-droid .holo-arm {
+  top: 100px;
+  height: 70px;
+}
+
+.visual-wookiee .holo-character {
+  height: 250px;
+}
+
+.visual-wookiee .holo-head {
+  top: 10px;
+  width: 70px;
+  height: 78px;
+  border-radius: 40% 40% 48% 48%;
+}
+
+.visual-wookiee .holo-body {
+  top: 86px;
+  width: 104px;
+  height: 132px;
+  border-radius: 42px 42px 22px 22px;
+  background:
+    repeating-linear-gradient(105deg, rgba(245, 240, 232, 0.16) 0 4px, transparent 4px 10px),
+    linear-gradient(180deg, rgba(77, 182, 172, 0.42), rgba(95, 143, 214, 0.14));
+}
+
+.visual-wookiee .holo-arm {
+  height: 126px;
+}
+
+.visual-rebel .holo-helmet {
+  top: 11px;
+  left: 50%;
+  width: 72px;
+  height: 28px;
+  transform: translateX(-50%);
+  border-radius: 999px 999px 12px 12px;
+  opacity: 1;
+  background: rgba(245, 182, 66, 0.28);
+}
+
+.visual-civilian .holo-body,
+.visual-scoundrel .holo-body {
+  border-radius: 34px 34px 16px 16px;
+}
+
+.hologram-projector {
+  position: absolute;
+  bottom: 3px;
+  width: 116px;
+  height: 38px;
+  border: 1px solid rgba(245, 182, 66, 0.38);
+  border-radius: 8px 8px 50% 50%;
+  background:
+    linear-gradient(180deg, rgba(245, 182, 66, 0.16), rgba(7, 8, 11, 0.88)),
+    #111720;
+  box-shadow:
+    0 0 32px rgba(77, 182, 172, 0.34),
+    inset 0 0 20px rgba(245, 182, 66, 0.14);
 }
 
 .hologram-scan {
@@ -1116,6 +1353,25 @@ body.profile-open {
 
   50% {
     transform: rotateY(22deg) translateY(-6px);
+  }
+}
+
+@keyframes hologram-materialize {
+  0% {
+    opacity: 0;
+    transform: rotateY(-36deg) translateY(18px) scaleY(0.12);
+    clip-path: inset(100% 0 0);
+  }
+
+  45% {
+    opacity: 0.55;
+    clip-path: inset(38% 0 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotateY(-22deg) translateY(0) scaleY(1);
+    clip-path: inset(0);
   }
 }
 
