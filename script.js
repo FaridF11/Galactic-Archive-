@@ -852,6 +852,145 @@ const gearItems = gearRows.trim().split("\n").map((row) => {
   return { name, type, era, affiliation, first, details };
 });
 
+const worldRows = `
+Coruscant|Core Worlds|Planet|The Phantom Menace|City-covered galactic capital, Senate seat, Jedi Temple home, and a symbol of civilization layered over inequality and political decay.
+Alderaan|Core Worlds|Planet|A New Hope|Peaceful Core World destroyed by the Death Star, turning Imperial terror into the Rebellion's clearest moral cause.
+Corellia|Core Worlds|Planet|Solo|Industrial shipbuilding world tied to Han Solo, Qi'ra, the Millennium Falcon's origin trail, and the Corellian Engineering Corporation.
+Chandrila|Core Worlds|Planet|Return of the Jedi|Mon Mothma's homeworld and an early political center for the New Republic after the Empire's fall.
+Hosnian Prime|Core Worlds|Planet|The Force Awakens|New Republic capital world destroyed by Starkiller Base, showing how quickly the First Order can decapitate galactic government.
+Duro|Core Worlds|Planet|The Clone Wars|Ancient Core World associated with major spacefaring traditions and the Duros people.
+Kuat|Core Worlds|Planet|The Clone Wars|Shipyard power associated with enormous warship production, especially the industrial scale behind Star Destroyer fleets.
+Fondor|Colonies|Planet|Andor|Major shipyard world where Luthen Rael's Fondor Haulcraft reveals how hidden Rebel networks use civilian cover.
+Cato Neimoidia|Colonies|Planet|Revenge of the Sith|Bridge-city world of the Neimoidians, connected to the Trade Federation and the Clone Wars' final battles.
+Abednedo|Colonies|Planet|The Force Awakens|Homeworld of the Abednedo species, represented in the sequel era by Resistance and civilian characters.
+Naboo|Mid Rim|Planet|The Phantom Menace|Elegant world of humans and Gungans whose invasion creates Palpatine's political opening and begins the prequel crisis.
+Rodia|Mid Rim|Planet|The Clone Wars|Homeworld of Greedo's species and a politically pressured world drawn into Clone Wars bargains and bounty hunter stories.
+Ryloth|Outer Rim|Planet|The Clone Wars|Twi'lek homeworld repeatedly occupied, exploited, and liberated, making it a recurring test of Republic, Separatist, and Imperial power.
+Mon Cala|Outer Rim|Planet|The Clone Wars|Ocean world of Mon Calamari and Quarren politics, later vital to Rebel capital ship design and naval strength.
+Onderon|Inner Rim|Planet|The Clone Wars|Jungle world where insurgent tactics, Saw Gerrera, and early anti-Separatist resistance foreshadow later Rebel cells.
+Christophsis|Outer Rim|Planet|The Clone Wars|Crystal city world and early Clone Wars battlefield where Anakin and Ahsoka's partnership begins in force.
+Umbara|Expansion Region|Planet|The Clone Wars|Dark, hostile battlefield that exposes clone autonomy, Jedi command failures, and the tragedy of Pong Krell's betrayal.
+Toydaria|Hutt Space|Planet|The Clone Wars|Homeworld of the Toydarians, politically courted during the Clone Wars because neutrality and supply lines matter.
+Nal Hutta|Hutt Space|Planet|The Clone Wars|Hutt homeworld and crime power center where underworld politics can outweigh Republic or Imperial law.
+Nar Shaddaa|Hutt Space|Moon|The Clone Wars|Smuggler moon of Nal Hutta, known for dense cityscapes, bounty hunters, fugitives, and shadow economies.
+Tatooine|Outer Rim|Planet|A New Hope|Desert world shaped by moisture farming, Tusken tribes, Jawas, smugglers, Hutt influence, and Skywalker beginnings.
+Geonosis|Outer Rim|Planet|Attack of the Clones|Desert hive world where the Clone Wars begin and where early Death Star work is hidden behind Separatist industry.
+Kamino|Wild Space|Planet|Attack of the Clones|Ocean world outside common records, home to the clone army's creation and one of the Republic's biggest secrets.
+Kashyyyk|Mid Rim|Planet|Revenge of the Sith|Wookiee forest world, Clone Wars battlefield, and later Imperial labor target after the Republic becomes the Empire.
+Utapau|Outer Rim|Planet|Revenge of the Sith|Sinkhole world where Obi-Wan confronts General Grievous shortly before Order 66.
+Felucia|Outer Rim|Planet|Revenge of the Sith|Fungal world with vivid lifeforms and a Clone Wars front where Jedi leadership collapses under Order 66.
+Mygeeto|Outer Rim|Planet|Revenge of the Sith|Freezing urban battlefield tied to Ki-Adi-Mundi's death and Separatist financial interests.
+Saleucami|Outer Rim|Planet|Revenge of the Sith|Dry frontier world connected to clone campaigns, Separatist retreats, and the outer war's grinding end.
+Polis Massa|Outer Rim|Asteroid Base|Revenge of the Sith|Remote medical facility where Luke and Leia are born as the Republic dies and the twins are hidden.
+Mustafar|Outer Rim|Planet|Revenge of the Sith|Lava world of Anakin's fall, Vader's fortress, Sith memory, and painful rebirth through fire and machinery.
+Nur|Outer Rim|Moon|Jedi: Fallen Order|Ocean moon holding Fortress Inquisitorius, the Empire's terrifying prison and training site for Jedi hunters.
+Mapuzo|Mid Rim|Planet|Obi-Wan Kenobi|Mining world where hidden networks shelter Force-sensitive fugitives during Imperial rule.
+Daiyu|Outer Rim|Planet|Obi-Wan Kenobi|Dense criminal city world where desperate people vanish into scams, spice, and false Jedi promises.
+Jabiim|Outer Rim|Planet|Obi-Wan Kenobi|Rain-soaked refuge world used by the Path to move surviving Jedi and Force-sensitive children.
+Mimban|Expansion Region|Planet|Solo|Mud-choked battlefield where Imperial occupation shows the Empire using endless war as a machine for control.
+Vandor|Mid Rim|Planet|Solo|Cold mountain world where Beckett's crew attempts the coaxium train heist that pulls Han into larger criminal politics.
+Kessel|Outer Rim|Planet|Solo|Spice mining world whose dangerous route through the Maw gives the Kessel Run its legendary reputation.
+Savareen|Outer Rim|Planet|Solo|Refinery world where coaxium, Crimson Dawn, Enfys Nest, and Han's moral choices collide.
+Numidian Prime|Mid Rim|Planet|Solo|Jungle resort world where Lando loses the Falcon to Han, closing one origin loop and opening another.
+Scarif|Outer Rim|Planet|Rogue One|Tropical Imperial archive world where the Death Star plans are stolen at enormous cost.
+Jedha|Mid Rim|Moon|Rogue One|Ancient holy moon for Force traditions and kyber pilgrims, later strip-mined and shattered by Imperial weapon testing.
+Eadu|Outer Rim|Planet|Rogue One|Storm-lashed Imperial research world where Galen Erso works under pressure on the Death Star project.
+Lah'mu|Outer Rim|Planet|Rogue One|Remote farming world where the Erso family hides before Director Krennic reclaims Galen for the Empire.
+Wobani|Mid Rim|Planet|Rogue One|Imperial labor prison world that shows how ordinary captives are fed into the Empire's machinery.
+Ferrix|Outer Rim|Planet|Andor|Scrap and salvage world whose community, funerary customs, and resistance spirit help shape Cassian Andor's rebellion.
+Aldhani|Mid Rim|Planet|Andor|Highland world where Imperial occupation displaces local culture and the Aldhani heist funds Rebel networks.
+Narkina 5|Outer Rim|Moon|Andor|Prison moon with factory floors, electrified discipline, and the brutal realization that Imperial sentences may never end.
+Niamos|Mid Rim|Planet|Andor|Resort world where casual Imperial policing catches Cassian, proving oppression reaches even leisure spaces.
+Kenari|Mid Rim|Planet|Andor|Cassian's childhood world, scarred by extraction, abandonment, and the mystery of lost families.
+Lothal|Outer Rim|Planet|Star Wars Rebels|Grassland world occupied by the Empire and liberated by the Ghost crew, Ezra Bridger, and local resistance.
+Atollon|Outer Rim|Planet|Star Wars Rebels|Remote base world for Phoenix Squadron, later discovered during Thrawn's campaign against the Rebellion.
+Malachor|Outer Rim|Planet|Star Wars Rebels|Ancient Sith battlefield and temple world where Ezra, Kanan, Ahsoka, Maul, and Vader confront old darkness.
+Seelos|Outer Rim|Planet|Star Wars Rebels|Dusty world where retired clone veterans live in an armored walker and confront their past with the Empire.
+Garel|Outer Rim|Planet|Star Wars Rebels|Industrial world used by Rebel cells and Imperial forces during the fight for Lothal.
+Lira San|Wild Space|Planet|Star Wars Rebels|Hidden Lasat refuge world that gives Zeb and his people a future beyond Imperial destruction.
+Mandalore|Outer Rim|Planet|The Clone Wars|Warrior world fractured by pacifism, clans, occupation, exile, the Darksaber, and the question of rightful rule.
+Concordia|Outer Rim|Moon|The Clone Wars|Mandalorian moon tied to Death Watch, hidden militarism, and the return of old warrior politics.
+Concord Dawn|Outer Rim|Planet|Star Wars Rebels|Protectorate world linked to Mandalorian pilots, clan loyalty, and control of hyperspace routes.
+Krownest|Outer Rim|Planet|Star Wars Rebels|Clan Wren homeworld where Sabine's family conflict shows how Mandalorian politics are deeply personal.
+Dathomir|Outer Rim|Planet|The Clone Wars|Nightsister world of magick, rancors, Maul's origins, Merrin, and dark side survival after massacre.
+Serenno|Outer Rim|Planet|Attack of the Clones|Count Dooku's aristocratic homeworld, connecting Separatist politics to old wealth and Sith manipulation.
+Florrum|Outer Rim|Planet|The Clone Wars|Desert world used by Hondo Ohnaka's pirates, where criminal comedy and real danger constantly overlap.
+Carlac|Outer Rim|Planet|The Clone Wars|Snowy world where Death Watch actions reveal Mandalorian extremism before the conflict for Mandalore escalates.
+Mortis|Wild Space|Realm|The Clone Wars|Mystical Force realm where the Father, Son, and Daughter test Anakin's destiny outside normal galactic reality.
+Dagobah|Outer Rim|Planet|The Empire Strikes Back|Swamp world where Yoda hides, trains Luke, and uses isolation to strip heroism down to patience and fear.
+Yavin 4|Outer Rim|Moon|A New Hope|Jungle moon with ancient temples and the Rebel base that launches the attack on the first Death Star.
+Hoth|Outer Rim|Planet|The Empire Strikes Back|Frozen refuge world where the Rebel base is discovered and the Alliance is forced into retreat.
+Bespin|Outer Rim|Gas Giant|The Empire Strikes Back|Gas giant whose Cloud City mixes mining wealth, neutrality, betrayal, and Lando's reluctant heroism.
+Endor|Outer Rim|Moon|Return of the Jedi|Forest moon where Ewoks, Rebels, and Imperial overconfidence decide the second Death Star battle.
+Jakku|Western Reaches|Planet|The Force Awakens|Desert graveyard of the final Imperial battle, where Rey survives among wrecks and buried histories.
+Takodana|Mid Rim|Planet|The Force Awakens|Forest world of Maz Kanata's castle, smugglers, old stories, and the moment Rey hears the Skywalker saber.
+D'Qar|Outer Rim|Planet|The Force Awakens|Resistance base world used by Leia's forces before evacuation under First Order pursuit.
+Crait|Outer Rim|Planet|The Last Jedi|Salt world with red mineral flats where the Resistance survives by illusion, sacrifice, and one last spark of hope.
+Ahch-To|Unknown Regions|Planet|The Force Awakens|Remote ocean world of the first Jedi temple, Luke's exile, ancient texts, and Rey's difficult training.
+Cantonica|Outer Rim|Planet|The Last Jedi|Casino world whose luxury at Canto Bight exposes war profiteering behind both Resistance and First Order conflict.
+Pasaana|Expansion Region|Planet|The Rise of Skywalker|Desert world with the Festival of the Ancestors and clues pointing Rey's group toward Exegol.
+Kijimi|Mid Rim|Planet|The Rise of Skywalker|Snowy underworld world occupied by the First Order and later destroyed by a Final Order Star Destroyer.
+Kef Bir|Endor System|Moon|The Rise of Skywalker|Ocean moon containing Death Star II wreckage, Sith clues, and Jannah's group of First Order deserters.
+Ajan Kloss|Outer Rim|Moon|The Rise of Skywalker|Jungle moon that shelters the Resistance before its final move against Exegol.
+Exegol|Unknown Regions|Planet|The Rise of Skywalker|Hidden Sith world where Palpatine, the Sith Eternal, and the Final Order prepare a secret return.
+Ilum|Unknown Regions|Planet|The Clone Wars|Ancient Jedi kyber world later carved into Starkiller Base, turning sacred crystal heritage into superweapon terror.
+Starkiller Base|Unknown Regions|Planetary Weapon|The Force Awakens|Ilum transformed by the First Order into a system-killing weapon that can fire across hyperspace.
+Csilla|Unknown Regions|Planet|Thrawn Ascendancy|Chiss homeworld associated with the Ascendancy, disciplined politics, and threats coming from beyond known space.
+Chiss Ascendancy|Unknown Regions|Territory|Thrawn Ascendancy|Powerful Unknown Regions civilization whose navigators, military families, and secrecy complicate simple Republic-versus-Empire maps.
+The Chaos|Unknown Regions|Region|Thrawn Ascendancy|Dangerous Unknown Regions expanse where shifting paths, hidden powers, and navigational risk define Chiss strategy.
+Peridea|Extra-galactic|Planet|Ahsoka|Ancient world in another galaxy tied to the purrgil migration, Nightsister history, Thrawn's exile, and Ezra's disappearance.
+Seatos|Outer Rim|Planet|Ahsoka|Ancient map world where the path to Peridea is unlocked through star maps, Force memory, and purrgil routes.
+At Attin|Unknown Regions|Planet|Skeleton Crew|Hidden world tied to lost coordinates, protected secrecy, and children discovering the wider galaxy beyond controlled borders.
+Brendok|Outer Rim|Planet|The Acolyte|Remote world connected to a Force-sensitive coven, Jedi intervention, and the mystery at the heart of Osha and Mae's past.
+Khofar|Outer Rim|Planet|The Acolyte|Forest world where Jedi investigations collide with a masked dark side enemy in a sudden, deadly confrontation.
+Olega|Outer Rim|Planet|The Acolyte|Prison world and investigation stop tied to Mae's revenge path and the High Republic Jedi response.
+Nevarro|Outer Rim|Planet|The Mandalorian|Frontier lava world that grows from bounty hunter refuge into a more independent trade settlement.
+Arvala-7|Outer Rim|Planet|The Mandalorian|Desert planet where Din Djarin finds Grogu, meets Kuiil, and begins the bond that reshapes his life.
+Sorgan|Outer Rim|Planet|The Mandalorian|Backwater farming world where villagers, raiders, and a hidden ex-Rebel shock trooper show postwar fragility.
+Tython|Deep Core|Planet|The Mandalorian|Ancient Jedi world where Grogu reaches through the Force and draws both help and danger.
+Morak|Outer Rim|Planet|The Mandalorian|Imperial refinery world where Din and Mayfeld confront surviving Imperial ideology after the war.
+Trask|Outer Rim|Moon|The Mandalorian|Estuary moon with Quarren and Mon Calamari communities, black-market transport, and the route to Bo-Katan.
+Corvus|Outer Rim|Planet|The Mandalorian|Burned forest world under Magistrate Morgan Elsbeth, where Ahsoka reveals Grogu's name.
+Plazir-15|Outer Rim|Planet|The Mandalorian|Independent domed world whose politics mix former Separatists, New Republic distance, and droid labor tensions.
+Taris|Outer Rim|Planet|Knights of the Old Republic|Layered city world famous in Legends and games for social stratification, ruin, and ancient conflict.
+Rakata Prime|Unknown Regions|Planet|Knights of the Old Republic|Ancient world strongly tied to Legends lore, the Rakata, and early hyperspace-era mysteries.
+Bracca|Mid Rim|Planet|Jedi: Fallen Order|Scrapyard world where Cal Kestis hides among Clone Wars wreckage before the Inquisitors expose him.
+Bogano|Outer Rim|Planet|Jedi: Fallen Order|Quiet vault world where Jedi and Zeffo secrets push Cal toward rebuilding hope after Order 66.
+Zeffo|Outer Rim|Planet|Jedi: Fallen Order|Stormy tomb world of the ancient Zeffo, giving Jedi survivor stories a deeper archaeological layer.
+Koboh|Outer Rim|Planet|Jedi: Survivor|Frontier world filled with raiders, High Republic ruins, hidden paths, and Cal's search for sanctuary.
+Tanalorr|Koboh Abyss|Planet|Jedi: Survivor|Hidden world beyond dangerous space that becomes a symbol of refuge, obsession, and the cost of impossible safety.
+Shattered Moon|Koboh Abyss|Moon|Jedi: Survivor|Broken moon research site above Koboh, packed with High Republic technology and raider conflict.
+Ossus|Outer Rim|Planet|The Book of Boba Fett|Ancient Jedi world where Luke trains Grogu and begins shaping a fragile new Jedi school.
+Dantooine|Outer Rim|Planet|A New Hope|Referenced Rebel base world and a recurring older Jedi location in wider Star Wars storytelling.
+Batuu|Outer Rim|Planet|Galaxy's Edge|Remote trading world at the edge of Wild Space, centered on Black Spire Outpost and passing travelers.
+Rishi Moon|Outer Rim|Moon|The Clone Wars|Clone listening post world where early warning systems and commando survival matter during the war.
+Pantora|Outer Rim|Moon|The Clone Wars|Politically active moon whose leaders deal with Separatist pressure, Trade Federation manipulation, and nearby Orto Plutonia.
+Orto Plutonia|Outer Rim|Planet|The Clone Wars|Frozen world where Republic assumptions clash with the native Talz and Pantoran expansion.
+Pabu|Outer Rim|Planet|The Bad Batch|Peaceful island world that offers Clone Force 99 a rare glimpse of stability after years of war.
+Teth|Outer Rim|Planet|The Clone Wars|Jungle monastery world where Jabba's son is held during an early Clone Wars rescue mission.
+Devaron|Colonies|Planet|The Clone Wars|Forest world of the Devaronians and a Clone Wars site tied to Savage Opress's brutality.
+Iego|Outer Rim|Planet|The Clone Wars|Legend-haunted world surrounded by deadly laser web defenses and stories of angels.
+Maridun|Outer Rim|Planet|The Clone Wars|Grassland world where pacifist Lurmen values collide with Separatist weapon testing.
+Quarzite|Mid Rim|Planet|The Clone Wars|Subterranean world with crystal caverns, bounty hunter work, and tense local species conflict.
+Scipio|Core Worlds|Planet|The Clone Wars|Banking Clan world where financial corruption shows how the Clone Wars are fought with money as much as armies.
+Anaxes|Core Worlds|Planet|The Clone Wars|Strategic Republic world and shipyard system connected to Clone Wars tactics and later abandoned military remains.
+Raxus Secundus|Outer Rim|Planet|The Clone Wars|Separatist capital world that reveals not every Separatist citizen is the same as Sith leadership.
+Sullust|Outer Rim|Planet|Return of the Jedi|Volcanic world tied to Sullustan pilots, Rebel planning, and industrial networks.
+Eriadu|Outer Rim|Planet|The Bad Batch|Tarkin's homeworld and an Imperial political setting where postwar power is consolidated.
+Lothal Jedi Temple|Outer Rim|Temple Site|Star Wars Rebels|Hidden Force site on Lothal, connected to Ezra's growth and access to the World Between Worlds.
+World Between Worlds|Force Mystery|Realm|Star Wars Rebels|Mystical plane of pathways through time and space, reached through rare Force-linked portals.
+Unknown Regions|Unknown Regions|Region|The Force Awakens|Uncharted frontier where unstable routes, hidden empires, ancient threats, and secret fleets can survive outside normal galactic oversight.
+Outer Rim Territories|Outer Rim|Region|A New Hope|Vast frontier zone where Republic attention is thin, criminal powers thrive, and many major heroes begin far from the center.
+Core Worlds|Core Worlds|Region|The Phantom Menace|Old, wealthy, politically central systems whose decisions shape galactic law, military power, and public legitimacy.
+Wild Space|Wild Space|Region|The Clone Wars|Space beyond reliable political control, often used for hidden worlds, forgotten routes, and Force mysteries.
+Hutt Space|Hutt Space|Region|The Clone Wars|Crime-dominated region where Hutt clans, smugglers, bounty hunters, and local deals often matter more than galactic law.
+`;
+
+const worldItems = worldRows.trim().split("\n").map((row) => {
+  const [name, region, type, first, details] = row.split("|");
+  return { name, region, type, first, details };
+});
+
 const factionFilter = document.querySelector("#faction-filter");
 const scopeFilter = document.querySelector("#character-scope");
 const searchInput = document.querySelector("#character-search");
@@ -861,6 +1000,11 @@ const gearTypeFilter = document.querySelector("#gear-type-filter");
 const gearSearchInput = document.querySelector("#gear-search");
 const gearGrid = document.querySelector("#gear-grid");
 const gearCount = document.querySelector("#gear-count");
+const worldRegionFilter = document.querySelector("#world-region-filter");
+const worldTypeFilter = document.querySelector("#world-type-filter");
+const worldSearchInput = document.querySelector("#world-search");
+const worldGrid = document.querySelector("#world-grid");
+const worldCount = document.querySelector("#world-count");
 let characterProfile = null;
 
 function uniqueFactions() {
@@ -869,6 +1013,14 @@ function uniqueFactions() {
 
 function uniqueGearTypes() {
   return [...new Set(gearItems.map((item) => item.type))].sort();
+}
+
+function uniqueWorldRegions() {
+  return [...new Set(worldItems.map((item) => item.region))].sort();
+}
+
+function uniqueWorldTypes() {
+  return [...new Set(worldItems.map((item) => item.type))].sort();
 }
 
 function escapeHtml(value) {
@@ -1164,6 +1316,70 @@ function renderGear() {
   `).join("");
 }
 
+function worldMatches(item, query, region, type) {
+  const text = Object.values(item).join(" ").toLowerCase();
+  const regionMatch = region === "all" || item.region === region;
+  const typeMatch = type === "all" || item.type === type;
+  return regionMatch && typeMatch && text.includes(query);
+}
+
+function worldSearchRank(item, query) {
+  if (!query) {
+    return 0;
+  }
+
+  const name = item.name.toLowerCase();
+  if (name === query) {
+    return -3;
+  }
+
+  if (name.startsWith(query)) {
+    return -2;
+  }
+
+  if (name.includes(query)) {
+    return -1;
+  }
+
+  return 0;
+}
+
+function renderWorlds() {
+  if (!worldGrid || !worldCount || !worldSearchInput || !worldRegionFilter || !worldTypeFilter) {
+    return;
+  }
+
+  const query = worldSearchInput.value.trim().toLowerCase();
+  const region = worldRegionFilter.value;
+  const type = worldTypeFilter.value;
+  const filtered = worldItems
+    .filter((item) => worldMatches(item, query, region, type))
+    .sort((a, b) => worldSearchRank(a, query) - worldSearchRank(b, query));
+
+  worldCount.textContent = `${filtered.length} of ${worldItems.length} worlds, moons, regions, and hidden places shown.`;
+  worldGrid.innerHTML = filtered.map((item) => `
+    <article class="world-card" data-region="${escapeHtml(item.region)}" data-type="${escapeHtml(item.type)}">
+      <div>
+        <h3>${escapeHtml(item.name)}</h3>
+        <div class="character-meta">
+          <span class="pill">${escapeHtml(item.region)}</span>
+          <span class="pill">${escapeHtml(item.type)}</span>
+        </div>
+      </div>
+      <dl>
+        <div>
+          <dt>First major appearance</dt>
+          <dd>${escapeHtml(item.first)}</dd>
+        </div>
+        <div>
+          <dt>Why it matters</dt>
+          <dd>${escapeHtml(item.details)}</dd>
+        </div>
+      </dl>
+    </article>
+  `).join("");
+}
+
 function populateFilters() {
   if (factionFilter) {
     uniqueFactions().forEach((faction) => {
@@ -1182,10 +1398,29 @@ function populateFilters() {
       gearTypeFilter.append(option);
     });
   }
+
+  if (worldRegionFilter) {
+    uniqueWorldRegions().forEach((region) => {
+      const option = document.createElement("option");
+      option.value = region;
+      option.textContent = region;
+      worldRegionFilter.append(option);
+    });
+  }
+
+  if (worldTypeFilter) {
+    uniqueWorldTypes().forEach((type) => {
+      const option = document.createElement("option");
+      option.value = type;
+      option.textContent = type;
+      worldTypeFilter.append(option);
+    });
+  }
 }
 
 populateFilters();
 renderGear();
+renderWorlds();
 renderCharacters();
 buildCharacterProfile();
 
@@ -1225,4 +1460,16 @@ if (gearSearchInput) {
 
 if (gearTypeFilter) {
   gearTypeFilter.addEventListener("change", renderGear);
+}
+
+if (worldSearchInput) {
+  worldSearchInput.addEventListener("input", renderWorlds);
+}
+
+if (worldRegionFilter) {
+  worldRegionFilter.addEventListener("change", renderWorlds);
+}
+
+if (worldTypeFilter) {
+  worldTypeFilter.addEventListener("change", renderWorlds);
 }

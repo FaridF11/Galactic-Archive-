@@ -29,42 +29,52 @@
     <section class="section page-intro" aria-labelledby="worlds-title">
       <div class="section-heading">
         <p class="eyebrow">Places and powers</p>
-        <h1 id="worlds-title">Worlds, Factions, and Technology</h1>
+        <h1 id="worlds-title">Worlds, Regions, and Hidden Frontiers</h1>
       </div>
-      <div class="world-grid">
-        <article>
-          <h3>Tatooine</h3>
-          <p>Desert world in the Outer Rim, ruled more by survival, moisture farming, criminal power, and local tribes than central government. It shapes Anakin and Luke through isolation, hardship, and longing.</p>
-        </article>
-        <article>
-          <h3>Coruscant</h3>
-          <p>Galactic capital, city-planet, Senate seat, Jedi Temple home, and visual symbol of civilization layered over inequality. Its skyline hides political decay underneath ceremonial grandeur.</p>
-        </article>
-        <article>
-          <h3>Naboo</h3>
-          <p>Elegant world of humans and Gungans. Its invasion launches the prequel crisis, introduces Padme and Palpatine's political opportunity, and contrasts beauty with manipulation.</p>
-        </article>
-        <article>
-          <h3>Mandalore</h3>
-          <p>A warrior culture split by pacifism, clan identity, occupation, exile, and myth. The Darksaber becomes a contested symbol of leadership rather than a simple crown.</p>
-        </article>
-        <article>
-          <h3>Rebel Alliance</h3>
-          <p>A coalition of senators, spies, soldiers, defectors, smugglers, and citizens. Its strength is distributed courage; its challenge is balancing secrecy, sacrifice, and hope.</p>
-        </article>
-        <article>
-          <h3>Galactic Empire</h3>
-          <p>A centralized dictatorship built from the Republic's legal machinery. It uses governors, stormtroopers, intelligence, propaganda, fear, and industrial scale to hold systems in line.</p>
-        </article>
-        <article>
-          <h3>First Order</h3>
-          <p>Imperial remnants transformed into a militarized successor state. It relies on indoctrination, hidden buildup, fanatic command, and resentment toward the New Republic.</p>
-        </article>
-        <article>
-          <h3>Lightsabers</h3>
-          <p>Jedi and Sith ritual weapons powered by kyber crystals. Blade color often signals tradition, construction, corruption, or personal path: blue and green for Jedi practice, red for bled crystals, white for purified ones.</p>
-        </article>
+      <p class="page-lede">A navigable atlas of major Star Wars planets, moons, stations, hyperspace regions, and strange frontiers. Use the filters to jump from the Core to the Outer Rim, then into the places the Republic never fully mapped.</p>
+
+      <article class="unknown-region-panel">
+        <div>
+          <p class="eyebrow">Hidden space</p>
+          <h2>The Unknown Regions</h2>
+          <p>The Unknown Regions sit beyond the familiar galactic routes, where unstable hyperspace lanes, gravity anomalies, ancient dangers, and poor mapping make travel difficult. They matter because several secret powers hide there, including the Sith Eternal on Exegol, the First Order's buildup, and the Chiss Ascendancy's guarded territory.</p>
+        </div>
+        <dl>
+          <div>
+            <dt>Why they are hard to reach</dt>
+            <dd>Routes shift, navigation data is rare, and many paths require local knowledge or powerful Force guidance.</dd>
+          </div>
+          <div>
+            <dt>Why they change the story</dt>
+            <dd>They let threats grow outside normal politics, then return suddenly with fleets, armies, or old Force secrets.</dd>
+          </div>
+          <div>
+            <dt>Key examples</dt>
+            <dd>Exegol, Ilum as Starkiller Base, Csilla, Peridea, and the hidden worlds tied to ancient routes.</dd>
+          </div>
+        </dl>
+      </article>
+
+      <div class="controls world-controls" aria-label="World archive filters">
+        <label>
+          Region
+          <select id="world-region-filter">
+            <option value="all">All regions</option>
+          </select>
+        </label>
+        <label>
+          Type
+          <select id="world-type-filter">
+            <option value="all">All types</option>
+          </select>
+        </label>
+        <label>
+          Search
+          <input id="world-search" type="search" placeholder="Search worlds, regions, stories, or details">
+        </label>
       </div>
+      <p id="world-count" class="character-count" aria-live="polite"></p>
+      <div id="world-grid" class="world-grid" aria-live="polite"></div>
     </section>
   </main>
 
