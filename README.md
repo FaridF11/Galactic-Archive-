@@ -4,7 +4,7 @@ A fan-made Star Wars encyclopedia website built to help users explore characters
 
 ## Live Website
 
-View the website here: https://faridf11.github.io/Galactic-Archive-/
+View the website here: https://faridf11.github.io/Galactic-Archive/
 
 ## About the Project
 
